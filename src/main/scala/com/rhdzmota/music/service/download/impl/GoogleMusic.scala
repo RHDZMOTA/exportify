@@ -1,6 +1,7 @@
 package com.rhdzmota.music.service.download.impl
 
 import com.rhdzmota.music.service.download.Downloader
+import com.rhdzmota.music.models.GoogleMusic
 
-case class GoogleMusic(email: String, pwd: String) extends Downloader {}
+case class GoogleMusicDownloader(email: String, pwd: String) extends Downloader[GoogleMusic] {}
 

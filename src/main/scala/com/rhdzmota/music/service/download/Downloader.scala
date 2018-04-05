@@ -4,7 +4,7 @@ import com.rhdzmota.music.service.Service
 import com.rhdzmota.music.models._
 
 trait Downloader[MusicService] extends Service {
-
+  
 
 }
 
