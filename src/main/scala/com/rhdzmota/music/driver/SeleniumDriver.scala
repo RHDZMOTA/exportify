@@ -1,14 +1,20 @@
 package com.rhdzmota.music.driver
 
-class SeleniumDriver {
+import com.markatta.scalenium._
+import org.openqa.selenium.chrome.ChromeDriver
 
+case class SeleniumDriver() {
 
+  val getProjectDir: String = System.getProperty("user.dir")
+  val driverPath: String = getProjectDir + "/src/resources/drivers/linux/chromedriver"
+
+  def getDriver: ChromeDriver = {
+    System.setProperty("webdriver.chrome.driver", driverPath)
+    new ChromeDriver()
+  }
+
+  val browser = new Browser(getDriver)
 
 }
 
 
-object SeleniumDriver {
-
-
-
-}

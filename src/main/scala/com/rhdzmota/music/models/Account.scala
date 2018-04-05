@@ -1,9 +1,8 @@
 package com.rhdzmota.music.models
 
-sealed trait Account {
-  def user: User
-  def service: StreamingService
+sealed trait Account[MusicService] {
+  def user: User[MusicService]
 }
 
-final case class Compete(user: User, service: StreamingService, playlists: List[Playlist]) extends Account
-final case class Incomplete(user: User, service: StreamingService) extends Account
+final case class Compete[MusicService](user: User[MusicService], playlists: List[Playlist]) extends Account[MusicService]
+final case class Incomplete[MusicService](user: User[MusicService]) extends Account[MusicService]
