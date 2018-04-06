@@ -11,6 +11,6 @@ lazy val root = (project in file(".")).
 
     libraryDependencies ++= Seq(
       scalaTest % Test,
-      "com.markatta" %% "scalenium" % "1.0.3"
+      "org.seleniumhq.selenium" % "selenium-java" % "2.3.1"
     )
   )
