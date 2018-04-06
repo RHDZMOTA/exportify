@@ -32,7 +32,7 @@ object Main {
     case _ => false
   }
 
-  def initializeDownload(service: String, email: String, pwd: String): Unit = {
+  def initializeDownload(service: String, email: String, pwd: String): Unit  = {
     val user = service match {
       case "-gmusic" => UserGoogleMusic(email, pwd)
       case "-spotify" => UserSpotify(email, pwd)
@@ -43,7 +43,7 @@ object Main {
       case "-gmusic" => GoogleMusicDownloader(account, selenium)
       case "-spotify" => SpotifyDownloader(account, selenium)
     }
-    
+
     downloader.openHome()
     downloader.clickSignInButton()
     Thread.sleep(5000)
