@@ -10,6 +10,10 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
+import com.rhdzmota.json.JsSyntax.JsWriterOps
+import com.rhdzmota.json.JsUtil
+import com.rhdzmota.json.JsWriterInstances._
+
 object Main {
 
   def main(args: Array[String]): Unit = {
@@ -65,14 +69,14 @@ object Main {
           case Success(list) =>
             val playlists: List[Playlist] = list.flatten
             val completeAccount = Complete(user, playlists)
-            println(completeAccount)
+            println(JsUtil.toJson(completeAccount))
           case Failure(e) => println("Something went wrong!")
         }
       }
     } else {
       val playlists: Option[List[Option[Playlist]]] = downloader.getPlaylists
       val completeAccount = playlists map {_.flatten} map {Complete(user, _)}
-      println(completeAccount)
+      println(JsUtil.toJson(completeAccount))
     }
 
   }
