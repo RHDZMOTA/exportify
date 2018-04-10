@@ -42,31 +42,18 @@ object Main {
       case "-gmusic" => UserGoogleMusic(email, pwd)
       case "-spotify" => UserSpotify(email, pwd)
     }
+
     val account = Incomplete(user)
     val selenium = Selenium()
-
     val signInService = service match {
       case "-gmusic" => GoogleMusicSignIn(account, selenium)
       case "-spotify" => SpotifySignIn(account, selenium)
     }
 
     signInService.run()
-
     val downloader: Downloader = signInService.getDownloader
-
     if (parallel) {
       val futurePlaylists = downloader.getPlaylistsParallel
-
-      /**
-      futurePlaylists map { (list: List[Future[Option[Playlist]]]) =>
-        list map { (future: Future[Option[Playlist]]) => future onComplete {
-          case Success(value) => println(value)
-          case Failure(e) => println("Failed")
-        }
-        }
-      }
-        **/
-
       val futureRes: Option[Future[List[Option[Playlist]]]] = futurePlaylists map {(list: List[Future[Option[Playlist]]]) =>
         list.foldLeft(Future(List.empty[Option[Playlist]])){(acc: Future[List[Option[Playlist]]], elm: Future[Option[Playlist]]) =>
           acc flatMap {list: List[Option[Playlist]] => elm map {element: Option[Playlist] => element :: list}}
@@ -90,40 +77,5 @@ object Main {
 
   }
 
-  def test(): Unit = {
-    val googleUser = UserGoogleMusic("exportify.tests@gmail.com", "123456789test")
-    val googleAccount = Incomplete(googleUser)
-
-    val spotifyUser = UserSpotify("exportify.tests@gmail.com", "123456789test")
-    val spotifyAccount = Incomplete(spotifyUser)
-    val selenium = Selenium()
-
-    val signInService = SpotifySignIn(spotifyAccount, selenium) //GoogleMusicSignIn(googleAccount, selenium)
-
-    signInService.run()
-
-    val downloader = signInService.getDownloader
-
-    val playlists: Option[List[Option[Playlist]]] = downloader.getPlaylists
-
-    playlists map {_.flatten} map {Complete(spotifyUser, _)}
-
-
-    downloader.userHome()
-
-    val futurePlaylists: Option[List[Future[Option[Playlist]]]] = downloader.getPlaylistsParallel
-
-    futurePlaylists map { (list: List[Future[Option[Playlist]]]) =>
-      list map { (future: Future[Option[Playlist]]) => future onComplete {
-        case Success(value) => println(value)
-        case Failure(e) => println("Failed")
-      }
-      }
-    }
-
-
-
-
-  }
 
 }

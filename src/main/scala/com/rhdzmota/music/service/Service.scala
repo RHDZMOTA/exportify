@@ -18,7 +18,7 @@ trait Service {
   }
 
   def userHome(): Unit = this match {
-    case google: GoogleMusic => Unit
+    case google: GoogleMusic => ???
     case spotify: Spotify => spotify.selenium.browser findElementByLinkText "Your Music" click()
   }
 
