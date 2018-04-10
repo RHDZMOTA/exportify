@@ -1,6 +1,5 @@
 package com.rhdzmota.music.driver
 
-//import com.markatta.scalenium._
 import org.openqa.selenium.chrome.ChromeDriver
 
 case class Selenium() {
@@ -13,7 +12,7 @@ case class Selenium() {
     new ChromeDriver()
   }
 
-  val browser = getDriver
+  val browser: ChromeDriver = getDriver
 
 }
 

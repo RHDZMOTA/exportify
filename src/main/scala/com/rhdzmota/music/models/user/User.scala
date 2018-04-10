@@ -1,4 +1,6 @@
-package com.rhdzmota.music.models
+package com.rhdzmota.music.models.user
+
+import com.rhdzmota.music.models.{GoogleMusic, Spotify}
 
 sealed trait User{
   def email: String
