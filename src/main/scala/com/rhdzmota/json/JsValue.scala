@@ -24,11 +24,12 @@ case object JsNull extends JsValue {
 
 
 // Define the numbers
+
 sealed trait JsNumber[A] extends JsValue {
   def value: A
   override def stringify: String = value.toString
 }
 
-final case class JsDouble(value: Double) extends JsNumber[Double]
+final case class JsDouble(value: Double) extends JsNumber[Double] with JsValue
 
-final case class JsInt(value: Int) extends JsNumber[Int]
+final case class JsInt(value: Int) extends JsNumber[Int] with JsValue
