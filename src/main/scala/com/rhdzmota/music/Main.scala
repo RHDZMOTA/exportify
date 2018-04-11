@@ -10,8 +10,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
-import com.rhdzmota.json.JsSyntax.JsWriterOps
-import com.rhdzmota.json.JsUtil
+import com.rhdzmota.json.JsSyntax._
 import com.rhdzmota.json.JsWriterInstances._
 
 object Main {
@@ -42,6 +41,7 @@ object Main {
   }
 
   def initializeDownload(service: String, email: String, pwd: String, parallel: Boolean): Unit  = {
+
     val user = service match {
       case "-gmusic" => UserGoogleMusic(email, pwd)
       case "-spotify" => UserSpotify(email, pwd)
@@ -69,16 +69,27 @@ object Main {
           case Success(list) =>
             val playlists: List[Playlist] = list.flatten
             val completeAccount = Complete(user, playlists)
-            println(JsUtil.toJson(completeAccount))
+            println(completeAccount.toJson.stringify)
           case Failure(e) => println("Something went wrong!")
         }
       }
     } else {
       val playlists: Option[List[Option[Playlist]]] = downloader.getPlaylists
       val completeAccount = playlists map {_.flatten} map {Complete(user, _)}
-      println(JsUtil.toJson(completeAccount))
+      completeAccount match {
+        case Some(account) => println(account.toJson.stringify)
+        case None => println("None...")
+      }
     }
 
+  }
+
+  def test(): Unit = {
+    val testAccount = Incomplete(UserSpotify("a", "b"))
+    //testAccount.toJson
+
+    val testUser = UserSpotify("a", "b")
+    //testUser.toJson
   }
 
 
