@@ -5,13 +5,16 @@ import com.rhdzmota.music.models.music.{Album, Author, Playlist, Song}
 import com.rhdzmota.music.models.user.{Complete, Incomplete, UserGoogleMusic, UserSpotify}
 import com.rhdzmota.music.service.download.Downloader
 import com.rhdzmota.music.service.signin.impl.{GoogleMusicSignIn, SpotifySignIn}
+import com.rhdzmota.json.JsSyntax._
+import com.rhdzmota.json.JsWriterInstances._
+import com.rhdzmota.file.WriterSyntax._
+import com.rhdzmota.file.WriterImplicits._
+
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
-import com.rhdzmota.json.JsSyntax._
-import com.rhdzmota.json.JsWriterInstances._
 
 object Main {
 
@@ -77,7 +80,11 @@ object Main {
       val playlists: Option[List[Option[Playlist]]] = downloader.getPlaylists
       val completeAccount = playlists map {_.flatten} map {Complete(user, _)}
       completeAccount match {
-        case Some(account) => println(account.toJson.stringify)
+        case Some(account) =>
+          account.toJson.stringify.writeTo("test.json") match {
+            case Success(v) => println("Done!")
+            case Failure(e) => println("Failed!")
+          }
         case None => println("None...")
       }
     }
