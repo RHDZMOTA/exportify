@@ -52,7 +52,7 @@ trait SignIn {
     case spotify: Spotify =>
       spotify.selenium.browser findElementById "login-username" sendKeys user.email
       spotify.selenium.browser findElementById "login-password" sendKeys user.pwd
-      spotify.selenium.browser findElementById "g-recaptcha-button" click()
+      spotify.selenium.browser findElementById "login-button" click()
   }
 
   def run(): Unit = {
